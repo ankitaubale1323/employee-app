@@ -21,8 +21,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/emp-app:latest .
-
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/emp-app:latest -f app/docker/Dockerfile .
 
   scan-image:
     runs-on: ubuntu-latest
