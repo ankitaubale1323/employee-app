@@ -1,16 +1,26 @@
-module "node_group" {
-  source = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "20.8"
 
-  cluster_name    = module.eks.cluster_name
-  cluster_version = module.eks.cluster_version
+  cluster_name    = var.cluster_name
+  cluster_version = "1.29"
 
-  name = "employee-node-group"
-
+  vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
-  instance_types = [var.instance_type]
+  cluster_endpoint_public_access = true
+  enable_irsa = true
 
-  min_size     = var.min_nodes
-  max_size     = var.max_nodes
-  desired_size = var.desired_nodes
+  node_groups = {
+    default = {
+      desired_capacity = var.desired_nodes
+      max_capacity     = var.max_nodes
+      min_capacity     = var.min_nodes
+      instance_type    = var.instance_type
+    }
+  }
+
+  tags = {
+    Environment = "dev"
+  }
 }
