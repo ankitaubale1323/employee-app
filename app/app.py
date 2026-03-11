@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from config.db_config import get_db_connection
 import logging
 
+
 print("✅ Flask file loaded")
 
 app = Flask(__name__)
